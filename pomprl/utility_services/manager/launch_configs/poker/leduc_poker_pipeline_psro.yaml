@@ -1,0 +1,6 @@
+games_per_eval_matchup: 20000
+max_ping_interval_seconds_to_track_workers: 30
+grpc_port: 27003
+num_thread_workers: 3
+logs_and_payoff_table_save_key_prefix: poker_ps/leduc_pipeline_psro/HOSTNAME_pid_PID_DATETIMESTR/
+restore_from_payoff_table_key: null

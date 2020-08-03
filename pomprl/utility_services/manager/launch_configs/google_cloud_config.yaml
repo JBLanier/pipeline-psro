@@ -1,0 +1,6 @@
+games_per_eval_matchup: 400
+max_ping_interval_seconds_to_track_workers: 30
+grpc_port: 2727
+num_thread_workers: 3
+logs_and_payoff_table_save_key_prefix: population_server/HOSTNAME_pid_PID_DATETIMESTR/
+restore_from_payoff_table_key: null

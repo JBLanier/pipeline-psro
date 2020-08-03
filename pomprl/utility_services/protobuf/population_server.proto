@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+message WorkerPing {
+    string worker_type = 1;
+    string worker_id = 2;
+}
+
+message PayoffTableKey {
+    bool payoff_table_is_empty = 1;
+    string key = 2;
+}
+
+message PolicyInfo {
+    string policy_key = 1;
+    string policy_model_config_key = 2;
+    string policy_class_name = 3;
+    repeated string policy_tags = 4;
+}
+
+message Confirmation {
+    bool confirmation = 1;
+    string message = 2;
+}
+
+message EvalMatchupOrder {
+    bool no_matchups_needed = 1;
+    PolicyInfo as_policy = 2;
+    PolicyInfo against_policy = 3;
+    int32 num_games_to_play = 4;
+}
+
+message EvalMatchupResult {
+    string as_policy_key = 1;
+    string against_policy_key = 2;
+    float payoff = 3;
+    int32 games_played = 4;
+}
+
+message ManagerStats {
+    string manager_stats_json = 1;
+}
+
+message EvalResultRequest {
+    EvalMatchupOrder matchup = 1;
+    bool perform_eval_if_not_cached = 2;
+}
+
+service PopulationServer {
+    rpc Ping (WorkerPing) returns (Confirmation) {
+    }
+
+    rpc GetManagerStats (google.protobuf.Empty) returns (ManagerStats) {
+    }
+
+    rpc GetLatestPayoffTableKey (google.protobuf.Empty) returns (PayoffTableKey) {
+    }
+    rpc SubmitNewPolicyForPopulation (PolicyInfo) returns (Confirmation) {
+    }
+
+    rpc RequestEvalMatchup (google.protobuf.Empty) returns (EvalMatchupOrder) {
+    }
+    rpc SubmitEvalMatchupResult (EvalMatchupResult) returns (Confirmation) {
+    }
+
+    rpc RequestEvalResult (EvalResultRequest) returns (EvalMatchupResult) {
+    }
+
+
+}

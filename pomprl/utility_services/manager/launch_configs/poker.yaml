@@ -1,0 +1,6 @@
+games_per_eval_matchup: 3000
+max_ping_interval_seconds_to_track_workers: 30
+grpc_port: 2727
+num_thread_workers: 3
+logs_and_payoff_table_save_key_prefix: poker_ps/HOSTNAME_pid_PID_DATETIMESTR/
+restore_from_payoff_table_key: null

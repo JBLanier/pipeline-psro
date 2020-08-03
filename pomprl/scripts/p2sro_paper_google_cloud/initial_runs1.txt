@@ -1,0 +1,1 @@
+./launch_exp.sh dch.sh 1 3 3 kuhn_poker

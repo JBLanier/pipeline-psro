@@ -1,0 +1,6 @@
+games_per_eval_matchup: 3
+max_ping_interval_seconds_to_track_workers: 30
+grpc_port: 2727
+num_thread_workers: 3
+logs_and_payoff_table_save_key_prefix: population_server/HOSTNAME_pid_PID_DATETIMESTR/
+restore_from_payoff_table_key: population_server/goku_12_15_50AM_Apr-19-2020/payoff_tables/payoff_table_1_polices_2_pending_goku_pid_17996_12_33_11AM_Apr-19-2020.dill

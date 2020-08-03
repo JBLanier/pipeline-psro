@@ -1,0 +1,349 @@
+
+
+Expected Resource Requirements:
+    5GB Per Worker
+    Fives: 5 cpu per worker
+    Poker: 3 cpu per worker
+
+Number of 1-worker only algos = 2
+Number of 3/5/8 worker algos = 6
+
+Sizes:                          N1 Hourly Cost:     Count (seeds*algos*games):
+
+Fives 1 worker, 5GB, 6 CPU      0.157               3*2*1 = 6
+Poker 1 worker, 5GB, 4 CPU      0.111               3*2*2 = 12
+
+Fives 3 worker, 15GB, 16 CPU    0.417               3*6*1 = 18
+Poker 3 worker, 15GB, 10 CPU    0.278               3*6*2 = 36
+
+Fives 5 worker, 25GB, 26 CPU    0.682               3*6*1 = 18
+Poker 5 worker, 25GB, 16 CPU    0.417               3*6*2 = 36
+
+Fives 8 worker, 40GB, 42 CPU    1.107               3*6*1 = 18
+Poker 8 worker, 40GB, 26 CPU    0.677               3*6*2 = 36
+
+
+Total Test Count: 180
+
+Total CPUS:
+6*6+4*12+16*18+10*36+26*18+16*36+42*18+26*36
+= 3468
+
+Total Hourly Cost:
+0.157 *6 + 0.111*12 + 0.417 * 18 + 0.278*36 + 0.682*18 + 0.417 * 36 +1.107 * 18 + 0.677 * 36
+= 91.37
+
+
+
+Alternate Set of Experiments:
+Poker 1 worker, 5GB, 4 CPU      0.111               3*2*2 = 12
+Poker 3 worker, 15GB, 10 CPU    0.278               3*6*2 = 36
+Poker 5 worker, 25GB, 16 CPU    0.417               3*6*2 = 36
+
+Total CPUs
+4*12+10*36+16*36
+= 984
+
+Total Hourly Cost
+0.111*12 + 0.278*36 + 0.417*36
+= 26.35
+
+
+# ARGS are EXP_CONFIG_FILE   SEED_NUM    NUM_WORKERS   NUM_EVAL_WORKERS   POKER_GAME_VERSION
+
+# kuhn_poker
+
+./launch_exp.sh dch.sh 1 3 3 kuhn_poker
+./launch_exp.sh dch.sh 2 3 3 kuhn_poker
+./launch_exp.sh dch.sh 3 3 3 kuhn_poker
+
+./launch_exp.sh dch.sh 1 5 5 kuhn_poker
+./launch_exp.sh dch.sh 2 5 5 kuhn_poker
+./launch_exp.sh dch.sh 3 5 5 kuhn_poker
+
+./launch_exp.sh dch.sh 1 8 8 kuhn_poker
+./launch_exp.sh dch.sh 2 8 8 kuhn_poker
+./launch_exp.sh dch.sh 3 8 8 kuhn_poker
+
+
+
+./launch_exp.sh naive.sh 1 3 3 kuhn_poker
+./launch_exp.sh naive.sh 2 3 3 kuhn_poker
+./launch_exp.sh naive.sh 3 3 3 kuhn_poker
+
+./launch_exp.sh naive.sh 1 5 5 kuhn_poker
+./launch_exp.sh naive.sh 2 5 5 kuhn_poker
+./launch_exp.sh naive.sh 3 5 5 kuhn_poker
+
+./launch_exp.sh naive.sh 1 8 8 kuhn_poker
+./launch_exp.sh naive.sh 2 8 8 kuhn_poker
+./launch_exp.sh naive.sh 3 8 8 kuhn_poker
+
+
+
+./launch_exp.sh pipe.sh 1 3 3 kuhn_poker
+./launch_exp.sh pipe.sh 2 3 3 kuhn_poker
+./launch_exp.sh pipe.sh 3 3 3 kuhn_poker
+
+./launch_exp.sh pipe.sh 1 5 5 kuhn_poker
+./launch_exp.sh pipe.sh 2 5 5 kuhn_poker
+./launch_exp.sh pipe.sh 3 5 5 kuhn_poker
+
+./launch_exp.sh pipe.sh 1 8 8 kuhn_poker
+./launch_exp.sh pipe.sh 2 8 8 kuhn_poker
+./launch_exp.sh pipe.sh 3 8 8 kuhn_poker
+
+
+
+./launch_exp.sh rect.sh 1 3 3 kuhn_poker
+./launch_exp.sh rect.sh 2 3 3 kuhn_poker
+./launch_exp.sh rect.sh 3 3 3 kuhn_poker
+
+./launch_exp.sh rect.sh 1 5 5 kuhn_poker
+./launch_exp.sh rect.sh 2 5 5 kuhn_poker
+./launch_exp.sh rect.sh 3 5 5 kuhn_poker
+
+./launch_exp.sh rect.sh 1 8 8 kuhn_poker
+./launch_exp.sh rect.sh 2 8 8 kuhn_poker
+./launch_exp.sh rect.sh 3 8 8 kuhn_poker
+
+
+
+./launch_exp.sh self.sh 1 1 1 kuhn_poker
+./launch_exp.sh self.sh 2 1 1 kuhn_poker
+./launch_exp.sh self.sh 3 1 1 kuhn_poker
+
+
+
+./launch_exp.sh seq.sh 1 1 1 kuhn_poker
+./launch_exp.sh seq.sh 2 1 1 kuhn_poker
+./launch_exp.sh seq.sh 3 1 1 kuhn_poker
+
+
+
+
+./launch_exp.sh singles.sh 1 3 3 kuhn_poker
+./launch_exp.sh singles.sh 2 3 3 kuhn_poker
+./launch_exp.sh singles.sh 3 3 3 kuhn_poker
+
+./launch_exp.sh singles.sh 1 5 5 kuhn_poker
+./launch_exp.sh singles.sh 2 5 5 kuhn_poker
+./launch_exp.sh singles.sh 3 5 5 kuhn_poker
+
+./launch_exp.sh singles.sh 1 8 8 kuhn_poker
+./launch_exp.sh singles.sh 2 8 8 kuhn_poker
+./launch_exp.sh singles.sh 3 8 8 kuhn_poker
+
+
+
+./launch_exp.sh subsets.sh 1 3 3 kuhn_poker
+./launch_exp.sh subsets.sh 2 3 3 kuhn_poker
+./launch_exp.sh subsets.sh 3 3 3 kuhn_poker
+
+./launch_exp.sh subsets.sh 1 5 5 kuhn_poker
+./launch_exp.sh subsets.sh 2 5 5 kuhn_poker
+./launch_exp.sh subsets.sh 3 5 5 kuhn_poker
+
+./launch_exp.sh subsets.sh 1 8 8 kuhn_poker
+./launch_exp.sh subsets.sh 2 8 8 kuhn_poker
+./launch_exp.sh subsets.sh 3 8 8 kuhn_poker
+
+
+
+
+# leduc_poker
+
+./launch_exp.sh dch.sh 1 3 3 leduc_poker
+./launch_exp.sh dch.sh 2 3 3 leduc_poker
+./launch_exp.sh dch.sh 3 3 3 leduc_poker
+
+./launch_exp.sh dch.sh 1 5 5 leduc_poker
+./launch_exp.sh dch.sh 2 5 5 leduc_poker
+./launch_exp.sh dch.sh 3 5 5 leduc_poker
+
+./launch_exp.sh dch.sh 1 8 8 leduc_poker
+./launch_exp.sh dch.sh 2 8 8 leduc_poker
+./launch_exp.sh dch.sh 3 8 8 leduc_poker
+
+
+
+./launch_exp.sh naive.sh 1 3 3 leduc_poker
+./launch_exp.sh naive.sh 2 3 3 leduc_poker
+./launch_exp.sh naive.sh 3 3 3 leduc_poker
+
+./launch_exp.sh naive.sh 1 5 5 leduc_poker
+./launch_exp.sh naive.sh 2 5 5 leduc_poker
+./launch_exp.sh naive.sh 3 5 5 leduc_poker
+
+./launch_exp.sh naive.sh 1 8 8 leduc_poker
+./launch_exp.sh naive.sh 2 8 8 leduc_poker
+./launch_exp.sh naive.sh 3 8 8 leduc_poker
+
+
+
+./launch_exp.sh pipe.sh 1 3 3 leduc_poker
+./launch_exp.sh pipe.sh 2 3 3 leduc_poker
+./launch_exp.sh pipe.sh 3 3 3 leduc_poker
+
+./launch_exp.sh pipe.sh 1 5 5 leduc_poker
+./launch_exp.sh pipe.sh 2 5 5 leduc_poker
+./launch_exp.sh pipe.sh 3 5 5 leduc_poker
+
+./launch_exp.sh pipe.sh 1 8 8 leduc_poker
+./launch_exp.sh pipe.sh 2 8 8 leduc_poker
+./launch_exp.sh pipe.sh 3 8 8 leduc_poker
+
+
+
+./launch_exp.sh rect.sh 1 3 3 leduc_poker
+./launch_exp.sh rect.sh 2 3 3 leduc_poker
+./launch_exp.sh rect.sh 3 3 3 leduc_poker
+
+./launch_exp.sh rect.sh 1 5 5 leduc_poker
+./launch_exp.sh rect.sh 2 5 5 leduc_poker
+./launch_exp.sh rect.sh 3 5 5 leduc_poker
+
+./launch_exp.sh rect.sh 1 8 8 leduc_poker
+./launch_exp.sh rect.sh 2 8 8 leduc_poker
+./launch_exp.sh rect.sh 3 8 8 leduc_poker
+
+
+
+./launch_exp.sh self.sh 1 1 1 leduc_poker
+./launch_exp.sh self.sh 2 1 1 leduc_poker
+./launch_exp.sh self.sh 3 1 1 leduc_poker
+
+
+
+./launch_exp.sh seq.sh 1 1 1 leduc_poker
+./launch_exp.sh seq.sh 2 1 1 leduc_poker
+./launch_exp.sh seq.sh 3 1 1 leduc_poker
+
+
+
+./launch_exp.sh singles.sh 1 3 3 leduc_poker
+./launch_exp.sh singles.sh 2 3 3 leduc_poker
+./launch_exp.sh singles.sh 3 3 3 leduc_poker
+
+./launch_exp.sh singles.sh 1 5 5 leduc_poker
+./launch_exp.sh singles.sh 2 5 5 leduc_poker
+./launch_exp.sh singles.sh 3 5 5 leduc_poker
+
+./launch_exp.sh singles.sh 1 8 8 leduc_poker
+./launch_exp.sh singles.sh 2 8 8 leduc_poker
+./launch_exp.sh singles.sh 3 8 8 leduc_poker
+
+
+
+./launch_exp.sh subsets.sh 1 3 3 leduc_poker
+./launch_exp.sh subsets.sh 2 3 3 leduc_poker
+./launch_exp.sh subsets.sh 3 3 3 leduc_poker
+
+./launch_exp.sh subsets.sh 1 5 5 leduc_poker
+./launch_exp.sh subsets.sh 2 5 5 leduc_poker
+./launch_exp.sh subsets.sh 3 5 5 leduc_poker
+
+./launch_exp.sh subsets.sh 1 8 8 leduc_poker
+./launch_exp.sh subsets.sh 2 8 8 leduc_poker
+./launch_exp.sh subsets.sh 3 8 8 leduc_poker
+
+
+
+
+
+
+# fives
+
+./launch_exp.sh dch.sh 1 3 3 fives
+./launch_exp.sh dch.sh 2 3 3 fives
+./launch_exp.sh dch.sh 3 3 3 fives
+
+./launch_exp.sh dch.sh 1 5 5 fives
+./launch_exp.sh dch.sh 2 5 5 fives
+./launch_exp.sh dch.sh 3 5 5 fives
+
+./launch_exp.sh dch.sh 1 8 8 fives
+./launch_exp.sh dch.sh 2 8 8 fives
+./launch_exp.sh dch.sh 3 8 8 fives
+
+
+
+./launch_exp.sh naive.sh 1 3 3 fives
+./launch_exp.sh naive.sh 2 3 3 fives
+./launch_exp.sh naive.sh 3 3 3 fives
+
+./launch_exp.sh naive.sh 1 5 5 fives
+./launch_exp.sh naive.sh 2 5 5 fives
+./launch_exp.sh naive.sh 3 5 5 fives
+
+./launch_exp.sh naive.sh 1 8 8 fives
+./launch_exp.sh naive.sh 2 8 8 fives
+./launch_exp.sh naive.sh 3 8 8 fives
+
+
+
+./launch_exp.sh pipe.sh 1 3 3 fives
+./launch_exp.sh pipe.sh 2 3 3 fives
+./launch_exp.sh pipe.sh 3 3 3 fives
+
+./launch_exp.sh pipe.sh 1 5 5 fives
+./launch_exp.sh pipe.sh 2 5 5 fives
+./launch_exp.sh pipe.sh 3 5 5 fives
+
+./launch_exp.sh pipe.sh 1 8 8 fives
+./launch_exp.sh pipe.sh 2 8 8 fives
+./launch_exp.sh pipe.sh 3 8 8 fives
+
+
+
+./launch_exp.sh rect.sh 1 3 3 fives
+./launch_exp.sh rect.sh 2 3 3 fives
+./launch_exp.sh rect.sh 3 3 3 fives
+
+./launch_exp.sh rect.sh 1 5 5 fives
+./launch_exp.sh rect.sh 2 5 5 fives
+./launch_exp.sh rect.sh 3 5 5 fives
+
+./launch_exp.sh rect.sh 1 8 8 fives
+./launch_exp.sh rect.sh 2 8 8 fives
+./launch_exp.sh rect.sh 3 8 8 fives
+
+
+
+./launch_exp.sh self.sh 1 1 1 fives
+./launch_exp.sh self.sh 2 1 1 fives
+./launch_exp.sh self.sh 3 1 1 fives
+
+
+
+./launch_exp.sh seq.sh 1 1 1 fives
+./launch_exp.sh seq.sh 2 1 1 fives
+./launch_exp.sh seq.sh 3 1 1 fives
+
+
+
+./launch_exp.sh singles.sh 1 3 3 fives
+./launch_exp.sh singles.sh 2 3 3 fives
+./launch_exp.sh singles.sh 3 3 3 fives
+
+./launch_exp.sh singles.sh 1 5 5 fives
+./launch_exp.sh singles.sh 2 5 5 fives
+./launch_exp.sh singles.sh 3 5 5 fives
+
+./launch_exp.sh singles.sh 1 8 8 fives
+./launch_exp.sh singles.sh 2 8 8 fives
+./launch_exp.sh singles.sh 3 8 8 fives
+
+
+
+./launch_exp.sh subsets.sh 1 3 3 fives
+./launch_exp.sh subsets.sh 2 3 3 fives
+./launch_exp.sh subsets.sh 3 3 3 fives
+
+./launch_exp.sh subsets.sh 1 5 5 fives
+./launch_exp.sh subsets.sh 2 5 5 fives
+./launch_exp.sh subsets.sh 3 5 5 fives
+
+./launch_exp.sh subsets.sh 1 8 8 fives
+./launch_exp.sh subsets.sh 2 8 8 fives
+./launch_exp.sh subsets.sh 3 8 8 fives

@@ -1,0 +1,4 @@
+manager_grpc_port: 29006
+manager_server_host: localhost
+locker_server_grpc_port: 29506
+

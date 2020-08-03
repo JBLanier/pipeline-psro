@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+
+message PayoffTableKey {
+    bool payoff_table_is_empty = 1;
+    string key = 2;
+}
+
+message PolicyInfo {
+    string policy_key = 1;
+    string policy_model_config_key = 2;
+    string policy_class_name = 3;
+    repeated string policy_tags = 4;
+}
+message LivePolicyInfo {
+    PolicyInfo policy_info = 1;
+    int32 payoff_table_index = 2;
+}
+
+message Confirmation {
+    bool confirmation = 1;
+    string message = 2;
+}
+
+message EvalMatchupResult {
+    string as_policy_key = 1;
+    string against_policy_key = 2;
+    float payoff = 3;
+    int32 games_played = 4;
+}
+
+
+service RealTimePayoffTracker {
+    rpc GetLatestLivePayoffTableKey (google.protobuf.Empty) returns (PayoffTableKey) {
+    }
+    rpc SubmitNewLivePolicyForPayoffTable (LivePolicyInfo) returns (Confirmation) {
+    }
+    rpc SubmitLiveEvalMatchupResult (EvalMatchupResult) returns (Confirmation) {
+    }
+}

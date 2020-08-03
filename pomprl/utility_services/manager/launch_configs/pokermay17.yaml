@@ -1,0 +1,6 @@
+games_per_eval_matchup: 3000
+max_ping_interval_seconds_to_track_workers: 30
+grpc_port: 2727
+num_thread_workers: 3
+logs_and_payoff_table_save_key_prefix: poker_ps/HOSTNAME_pid_PID_DATETIMESTR/
+restore_from_payoff_table_key: poker_ps/goku_pid_113288_06_24_09PM_May-16-2020/payoff_tables/payoff_table_104_polices_0_pending_goku_pid_113288_01_43_55PM_May-17-2020.dill
