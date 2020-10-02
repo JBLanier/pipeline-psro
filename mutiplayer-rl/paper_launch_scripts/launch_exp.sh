@@ -60,7 +60,7 @@ echo "Set tune local save dir to ${TUNE_SAVE_DIR}"
 session_name="${POKER_GAME_VERSION}_${ALGO_NAME}_${SEED_NUM}"
 echo "tmux session name is ${session_name}"
 
-tmux new-session -s "${session_name}" -n "manager" -d -c "${MANAGER_DIR}"
+tmux -f tmux.conf new-session -s "${session_name}" -n "manager" -d -c "${MANAGER_DIR}"
 echo "starting manager"
 tmux send-keys "${MANAGER_CMD}" Enter
 
@@ -100,6 +100,14 @@ if [[ -n "$MAIN_WORKER_PATH" ]]; then
         tmux send-keys "${PYTHON_EXECUTABLE} ${MAIN_WORKER_PATH}" Enter
     done
 fi
+
+tmux new-window -n system
+sleep 1
+echo "starting system monitor"
+tmux send-keys "htop" Enter
+tmux split-window -t "${session_name}:system"
+tmux send-keys "watch -n 1 nvidia-smi" Enter
+
 
 tmux new-window -n dashboard -c "${DASHBOARD_DIR}"
 sleep 1
