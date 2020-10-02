@@ -1,0 +1,4 @@
+manager_grpc_port: 26003
+manager_server_host: localhost
+http_serve_port: 80
+game: Barrage Stratego

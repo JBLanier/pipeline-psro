@@ -1,0 +1,4 @@
+manager_grpc_port: 28006
+manager_server_host: localhost
+http_serve_port: 28406
+game: Kuhn Poker

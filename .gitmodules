@@ -1,0 +1,3 @@
+[submodule "stratego_env"]
+	path = stratego_env
+	url = https://github.com/JBLanier/stratego_env.git

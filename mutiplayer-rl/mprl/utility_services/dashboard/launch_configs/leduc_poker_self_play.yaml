@@ -1,0 +1,4 @@
+manager_grpc_port: 27009
+manager_server_host: localhost
+http_serve_port: 27409
+game: Leduc Poker
