@@ -1,3 +1,6 @@
-[submodule "stratego_env"]
-	path = stratego_env
+[submodule "dependencies/open_spiel"]
+	path = dependencies/open_spiel
+	url = https://github.com/deepmind/open_spiel
+[submodule "dependencies/stratego_env"]
+	path = dependencies/stratego_env
 	url = https://github.com/JBLanier/stratego_env.git
