@@ -7,5 +7,5 @@ setup(
    author='J.B. Lanier, Stephen McAleer',
    author_email='johnblanier@gmail.com',
    packages=['mprl'],  #same as name
-   install_requires=['numpy', 'progress', 'pyglet', 'gym'], #external packages as dependencies
+   install_requires=['ray==0.8', 'numpy', 'progress', 'pyglet', 'gym', 'pandas', 'tabulate', 'bidict', 'minio', 'plotly', 'opencv-python==4.1.0.25', 'lz4'], #external packages as dependencies
 )

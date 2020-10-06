@@ -1,0 +1,34 @@
+name: p2sro_release
+channels:
+  - defaults
+dependencies:
+  - python=3.6.12
+  - tensorflow-gpu==1.13.1
+  - psutil=5.7.2
+  - mpi4py==3.0.2
+  - pip:
+    - ray==0.8
+    - opencv-python==4.1.0.25
+    - plotly==4.1.1
+    - dm-sonnet==1.32
+    - IPython==5.8.0
+    - tensorflow-probability==0.6.0
+    - cvxopt==1.2.3
+    - networkx==2.2
+    - mock==3.0.5
+    - matplotlib==3.1.1
+    - nashpy==0.0.19
+    - scipy==1.1.0
+    - attrs==19.1.0
+    - absl-py==0.7.1
+    - numpy==1.19.2
+    - progress==1.5
+    - pyglet==1.5.0
+    - gym==0.17.3
+    - pandas==1.1.3
+    - tabulate==0.8.7
+    - bidict==0.21.2
+    - minio==6.0.0
+    - lz4==3.1.0
+
+
