@@ -2,4 +2,4 @@ Code Release for [Pipeline PSRO: A Scalable Approach for Finding Approximate Nas
 
 1. [Installation](docs/install.md)
 2. [Running Experiments](docs/running_experiments.md)
-3. [Interfacing with the traing Barrage Agent](docs/barrage_agent.md)
+3. [Interfacing with the trained Barrage Agent](docs/barrage_agent.md)
