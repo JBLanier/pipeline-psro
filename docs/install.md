@@ -31,7 +31,7 @@ DeepMind's [Openspiel](https://github.com/deepmind/open_spiel) is used for Kuhn 
 
 With your conda env active:
 ```shell script
-cd depedencies/open_spiel
+cd dependencies/open_spiel
 ./install.sh
 mkdir build
 cd build
@@ -44,9 +44,9 @@ cd ../../..
 ```shell script
 # Add the following lines to your ~/.bashrc:
 # For the python modules in open_spiel.
-export PYTHONPATH=$PYTHONPATH:/<path_to_dependencies/open_spiel>
+export PYTHONPATH=$PYTHONPATH:/<path_to_open_spiel_submodule>
 # For the Python bindings of Pyspiel
-export PYTHONPATH=$PYTHONPATH:/<path_to_dependencies/open_spiel>/build/python
+export PYTHONPATH=$PYTHONPATH:/<path_to_open_spiel_submodule>/build/python
 ```
 (The mprl package automatically adds these directories to the python system-path in its top-level \_\_init.py__, so this step isn't necessary to run code in this repository.)
 

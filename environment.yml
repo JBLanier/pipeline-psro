@@ -3,9 +3,9 @@ channels:
   - defaults
 dependencies:
   - python=3.6.12
+  - pip=20.2.3
   - tensorflow-gpu==1.13.1
   - psutil=5.7.2
-  - mpi4py==3.0.2
   - pip:
     - ray==0.8
     - opencv-python==4.1.0.25
