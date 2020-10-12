@@ -8,7 +8,7 @@ from ray.rllib.agents.sac.sac_policy import SACTFPolicy
 from ray.rllib.agents.trainer import with_base_config
 from mprl.rl.common.custom_evals_trainer_mixin import perform_relevant_custom_evals, CustomEvaluationsTrainerMixin
 from mprl.rl.common.weights_utils_trainer_mixin import WeightsUtilsTrainerMixin
-from mprl.rl.sac.aync.sac_async_replay_optimizer import AsyncReplayOptimizer
+from mprl.rl.sac.async.sac_async_replay_optimizer import AsyncReplayOptimizer
 
 OPTIMIZER_SHARED_CONFIGS = [
     "buffer_size", "prioritized_replay", "prioritized_replay_alpha",
