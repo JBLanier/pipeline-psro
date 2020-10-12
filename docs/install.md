@@ -1,8 +1,13 @@
 # Installation
 (tested on Ubuntu 18.04 and 20.04)
 
+1. install tmux
+2. clone the repo
+3. set up conda env
+4. install python modules (including the main package for this repo, [mprl](../multiplayer-rl))
+
 ### Required packages
-[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display paper experiments:
+[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments:
 ```shell script
 # (On Ubuntu)
 sudo apt update && sudo apt install tmux
@@ -12,13 +17,14 @@ sudo apt update && sudo apt install tmux
 ```shell script
 git clone --recursive https://github.com/JBLanier/distributed-rl-for-imperfect-info-games.git
 ```
-If you've already cloned this repo but not the submodules located in the dependencies directory, you can clone them with:
+If you've already cloned this repo but not the submodules (located in the dependencies directory), you can clone them with:
 ```shell script
 git submodule update --init --recursive
 ```
 
 
 ### Set up Conda environment
+After installing [Anaconda](https://docs.anaconda.com/anaconda/install/):
 ```shell script
 conda env create -f environment.yml
 conda activate p2sro_release
@@ -29,7 +35,7 @@ conda activate p2sro_release
 #### 1. DeepMind OpenSpiel (included dependency)
 DeepMind's [Openspiel](https://github.com/deepmind/open_spiel) is used for Kuhn and Leduc Poker game logic as well as matrix-game utilities.
 
-With your conda env active:
+Perform the following steps with your conda env *active* to install OpenSpiel. (The conda env needs to be active so that OpenSpiel can find and compile against the python development headers in the env. Python version related issues may occur otherwise):
 ```shell script
 cd dependencies/open_spiel
 ./install.sh
@@ -48,9 +54,9 @@ export PYTHONPATH=$PYTHONPATH:/<path_to_open_spiel_submodule>
 # For the Python bindings of Pyspiel
 export PYTHONPATH=$PYTHONPATH:/<path_to_open_spiel_submodule>/build/python
 ```
-(The mprl package automatically adds these directories to the python system-path in its top-level \_\_init.py__, so this step isn't necessary to run code in this repository.)
+(The mprl package automatically adds these directories to the python system-path at runtime in its top-level [\_\_init.py__](../multiplayer-rl/mprl/__init__.py), so this step isn't necessary to run code in this repository.)
 
-#### 2. Stratego Env (included dependency)
+#### 2. Stratego Env Package (included dependency)
 Stratego Multiplayer RL Environment
 ````shell script
 cd dependencies/stratego_env
@@ -58,14 +64,15 @@ pip install -e .
 cd ../..
 ````
 
-#### 3. Multiplayer RL (main package)
+#### 3. Multiplayer RL Package (main package)
 
 ```shell script
 cd multiplayer-rl
 pip install -e .
 ```
 
+Installation is now done!
 
-### Checkout Guides for Usage
+### Check out Guides for Usage
 1. [Running Poker Experiments](running_experiments.md)
 2. [Playing against the Barrage Agent](barrage_agent.md)
