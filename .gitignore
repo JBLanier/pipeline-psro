@@ -1,8 +1,9 @@
+/paper-launch-scripts/.ipynb_checkpoints/
 .idea/
-logs/
+multiplayer-rl/mprl/logs/
 models/
 temp/
-mprl/data/*
+multiplayer-rl/mprl/data/
 *.lock
 
 # Byte-compiled / optimized / DLL files
