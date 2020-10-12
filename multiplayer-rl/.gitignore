@@ -3,6 +3,7 @@ logs/
 models/
 temp/
 mprl/data/*
+*.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
