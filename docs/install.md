@@ -1,7 +1,7 @@
 # Installation
 (tested on Ubuntu 18.04 and 20.04)
 
-1. install tmux
+1. install utility packages
 2. clone the repo
 3. set up conda env
 4. install python modules (including the main package for this repo, [mprl](../multiplayer-rl))
