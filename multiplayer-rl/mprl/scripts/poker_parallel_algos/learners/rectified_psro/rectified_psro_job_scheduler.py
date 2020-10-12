@@ -1,6 +1,6 @@
 
 import os
-from mprl.utility_services.cloud_storage import connect_storage_client
+from mprl.utility_services.cloud_storage import connect_storage_client, BUCKET_NAME
 from mprl.utility_services.worker import ConsoleManagerInterface
 from mprl.utility_services.lock_server.lock_client_interface import LockServerInterface
 from mprl.utility_services.payoff_table import PayoffTable, PolicySpec

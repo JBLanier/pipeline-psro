@@ -19,7 +19,7 @@ from mprl.utility_services.lock_server.lock_client_interface import LockServerIn
 from ray import tune
 from ray.rllib.utils import try_import_tf
 from ray.tune.experiment import DEFAULT_RESULTS_DIR
-from mprl.utility_services.cloud_storage import connect_storage_client, maybe_download_object, upload_file, get_tune_sync_to_cloud_fn
+from mprl.utility_services.cloud_storage import connect_storage_client, maybe_download_object, upload_file, get_tune_sync_to_cloud_fn, BUCKET_NAME
 from mprl.rl.envs.opnspl.poker_multiagent_env import PARTIALLY_OBSERVABLE, \
     PokerMultiAgentEnv
 from mprl.rl.sac.sac import SACTrainer
