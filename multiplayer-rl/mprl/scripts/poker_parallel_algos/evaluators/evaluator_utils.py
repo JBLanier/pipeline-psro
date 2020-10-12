@@ -6,6 +6,7 @@ import numpy as np
 import dill
 from multiprocessing.pool import Pool
 from multiprocessing import cpu_count
+from multiprocessing import Lock
 import logging
 import time
 logger = logging.getLogger(__name__)
@@ -115,19 +116,16 @@ def eval_policy_matchup(get_policy_fn_a, get_policy_fn_b, env, stratego_env_conf
     return policy_a_avg_payoff, tie_percentage
 
 
-def make_get_policy_fn(model_weights_object_key,
-                       model_config_object_key,
-                       policy_name,
-                       policy_class_name,
-                       storage_client,
-                       minio_bucket_name,
-                       download_lock,
-                       manual_config=None,
-                       process_id=None):
+def make_get_policy_fn(model_weights_object_key, model_config_object_key, policy_name, policy_class_name,
+                       storage_client, minio_bucket_name, download_lock=None, manual_config=None,
+                       population_policy_keys_to_selection_probs=None):
+
+    if download_lock is None:
+        download_lock = Lock()
 
     def get_policy_fn(stratego_env_config):
 
-        from mprl.utility_services.cloud_storage import maybe_download_object, connect_storage_client
+        from mprl.utility_services.cloud_storage import maybe_download_object
         from mprl.rl.sac.sac_policy import SACDiscreteTFPolicy
         from mprl.rl.ppo.ppo_stratego_model_policy import PPOStrategoModelTFPolicy
         from mprl.rl.common.stratego_preprocessor import STRATEGO_PREPROCESSOR, StrategoDictFlatteningPreprocessor
@@ -207,9 +205,9 @@ def make_get_policy_fn(model_weights_object_key,
                                                                      object_name=model_weights_object_key,
                                                                      force_download=False)
                         policy.load_model_weights(weights_file_path)
-                elif policy.model._pi_model is not None:
-                    with download_lock:
-                        policy.model._pi_model.load_weights(model_config["custom_options"]['policy_keras_model_file_path'])
+                    policy.current_model_weights_key = weights_file_path
+                else:
+                    policy.current_model_weights_key = None
 
         def policy_fn(observation, policy_state=None):
             if policy_state is None:
@@ -220,6 +218,23 @@ def make_get_policy_fn(model_weights_object_key,
                 state=policy_state)
 
             return current_player_perspective_action_index, policy_state
+
+        if population_policy_keys_to_selection_probs is not None:
+
+            def sample_new_policy_weights_from_population():
+                new_policy_key = np.random.choice(a=list(population_policy_keys_to_selection_probs.keys()),
+                                                  p=list(population_policy_keys_to_selection_probs.values()))
+                if new_policy_key != policy.current_model_weights_key:
+                    with download_lock:
+                        weights_file_path, _ = maybe_download_object(storage_client=storage_client,
+                                                                     bucket_name=minio_bucket_name,
+                                                                     object_name=new_policy_key,
+                                                                     force_download=False)
+                        policy.load_model_weights(weights_file_path)
+                        logger.debug(f"Sampling new population weights from {new_policy_key}")
+                    policy.current_model_weights_key = new_policy_key
+
+            return policy_name, policy_fn, sample_new_policy_weights_from_population
 
         # policy name must be unique
         return policy_name, policy_fn

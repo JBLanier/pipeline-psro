@@ -129,24 +129,17 @@ def perform_eval_matchups_as_they_are_available(i):
         num_games_to_play = matchup['num_games']
 
         get_as_policy_fn = make_get_policy_fn(model_weights_object_key=as_policy.key,
-                                              model_config_object_key=as_policy.config_key,
-                                              policy_name=as_policy.key,
-                                              policy_class_name=as_policy.class_name,
-                                              storage_client=storage_client,
-                                              minio_bucket_name=BUCKET_NAME,
-                                              download_lock=download_lock,
-                                              manual_config=None,
-                                              process_id=i)
+                                              model_config_object_key=as_policy.config_key, policy_name=as_policy.key,
+                                              policy_class_name=as_policy.class_name, storage_client=storage_client,
+                                              minio_bucket_name=BUCKET_NAME, download_lock=download_lock,
+                                              manual_config=None)
 
         get_against_policy_fn = make_get_policy_fn(model_weights_object_key=against_policy.key,
                                                    model_config_object_key=against_policy.config_key,
                                                    policy_name=against_policy.key,
                                                    policy_class_name=against_policy.class_name,
-                                                   storage_client=storage_client,
-                                                   minio_bucket_name=BUCKET_NAME,
-                                                   download_lock=download_lock,
-                                                   manual_config=None,
-                                                   process_id=i)
+                                                   storage_client=storage_client, minio_bucket_name=BUCKET_NAME,
+                                                   download_lock=download_lock, manual_config=None)
 
         as_policy_payoff, tie_percentage = eval_policy_matchup(
             get_policy_fn_a=get_as_policy_fn,
