@@ -60,9 +60,9 @@ echo "Set tune local save dir to ${TUNE_SAVE_DIR}"
 session_name="${POKER_GAME_VERSION}_${ALGO_NAME}_${SEED_NUM}"
 echo "tmux session name is ${session_name}"
 
-tmux -f tmux.conf new-session -s "${session_name}" -n "manager" -d -c "${MANAGER_DIR}"
+tmux -f tmux/tmux.conf new-session -s "${session_name}" -n "manager" -d
 echo "starting manager"
-tmux send-keys "${MANAGER_CMD}" Enter
+tmux send-keys "cd ${MANAGER_DIR}" Enter "${MANAGER_CMD}" Enter
 
 if [[ -n "${LOCK_SERVER_PORT}" ]]; then
     tmux new-window -n "locks" -c "${LOCK_SERVER_DIR}"

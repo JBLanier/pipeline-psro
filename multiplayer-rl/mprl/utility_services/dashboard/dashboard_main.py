@@ -176,6 +176,7 @@ if __name__ == '__main__':
     server = HTTPServer((host, port), DashboardHandler)
     logger.info(f"Starting HTTP server listening on {host}:{port}")
 
-    logger.info(colored(f"Visit http://{gethostname()}:{port} to view dashboard.", "green"))
+    logger.info(colored(f"Visit http://{gethostname()}:{port} to view dashboard. "
+                        f"Refresh the page to see the latest metanash graph (appears after at least 1 policy is added to the payoff table).", "green"))
     # Wait forever for incoming http requests
     server.serve_forever()
