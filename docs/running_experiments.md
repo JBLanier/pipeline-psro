@@ -23,7 +23,7 @@ Quick guides to using tmux:
 - [Tactical tmux: The 10 Most Important Commands](https://danielmiessler.com/study/tmux/)
 
 ## Experiment Processes Breakdown
-Our experiment code supports multiple algorithms for training parallel learners in 2-player games. The stack is designed such that an algorithm can be validated on toy games like Kuhn & Leduc poker on a single node and then used in large-scale games with learners spanning multiple nodes with the same code.
+Our experiment code supports multiple algorithms for training parallel learners in 2-player games. The stack is designed such that an algorithm can be validated on toy games like Kuhn & Leduc poker on a single node and then be used in large-scale games with learners spanning multiple nodes with the same code.
 
 The basic building block processes that you may see launched for each experiment are:
 
