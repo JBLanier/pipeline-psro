@@ -7,11 +7,11 @@ Three files are included:
 [barrage_agent_interface.py](/multiplayer-rl/mprl/barrage_agent_api/barrage_agent_interface.py)
 \- A single player gym-esque interface for playing games against the P2SRO Barrage agent. A usage example is included in this file's \_\_main\_\_ and can be run with:
 ```shell script
-python -m mprl.barrage_agent_api.barrage_agent_interface.py
+python -m mprl.barrage_agent_api.barrage_agent_interface
 ```
 or
 ```shell script
-cd ../multiplayer-rl/mprl/barrage_agent_api
+cd <pipeline-psro repo>/multiplayer-rl/mprl/barrage_agent_api
 python barrage_agent_interface.py
 ```
 The code is densely commented to explain how to interact with the agent through example.
