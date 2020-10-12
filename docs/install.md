@@ -70,6 +70,7 @@ cd ../..
 ```shell script
 cd multiplayer-rl
 pip install -e .
+cd ..
 ```
 
 Installation is now done!
