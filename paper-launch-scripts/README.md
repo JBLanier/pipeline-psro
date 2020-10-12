@@ -1,6 +1,8 @@
 # Running Poker Experiments
 
 ## Launching Experiments in Tmux sessions
+Launching the multiplayer rl experiments involves starting multiple processes, so the launch process is automated with the [launch_exp.sh](/paper-launch-scripts/launch_exp.sh) bash script.
+
 To launch Pipeline PSRO on Leduc poker with 3 rl-learners and 3 evaluator-workers, run: 
 ```shell script
 # (with your conda environment active)

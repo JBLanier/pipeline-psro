@@ -7,15 +7,15 @@
 4. install python modules (including the main package for this repo, [mprl](../multiplayer-rl))
 
 ### Required packages
-[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments:
+[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments. [htop](https://htop.dev/) is a visual system process monitor:
 ```shell script
 # (On Ubuntu)
-sudo apt update && sudo apt install tmux
+sudo apt update && sudo apt install tmux htop
 ```
 
 ### Clone repo with git submodules
 ```shell script
-git clone --recursive https://github.com/JBLanier/distributed-rl-for-imperfect-info-games.git
+git clone --recursive https://github.com/JBLanier/pipeline-psro.git
 ```
 If you've already cloned this repo but not the submodules (located in the dependencies directory), you can clone them with:
 ```shell script
@@ -24,8 +24,9 @@ git submodule update --init --recursive
 
 
 ### Set up Conda environment
-After installing [Anaconda](https://docs.anaconda.com/anaconda/install/):
+After installing [Anaconda](https://docs.anaconda.com/anaconda/install/), enter the repo directory and create the new environment:
 ```shell script
+cd pipeline-psro
 conda env create -f environment.yml
 conda activate p2sro_release
 ```
@@ -69,6 +70,7 @@ cd ../..
 ```shell script
 cd multiplayer-rl
 pip install -e .
+cd ..
 ```
 
 Installation is now done!
