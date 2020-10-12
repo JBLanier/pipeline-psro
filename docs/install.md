@@ -12,7 +12,7 @@ sudo apt update && sudo apt install tmux
 ```shell script
 git clone --recursive https://github.com/JBLanier/distributed-rl-for-imperfect-info-games.git
 ```
-If you've already cloned this repo but not the submodules located in the dependencies directory, you can clone them with:
+If you've already cloned this repo but not the submodules (located in the dependencies directory), you can clone them with:
 ```shell script
 git submodule update --init --recursive
 ```
