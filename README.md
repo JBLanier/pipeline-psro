@@ -5,3 +5,5 @@
 3. [Interfacing with the trained Barrage Agent](docs/barrage_agent.md)
 
 Looking to integrate P2SRO into your own code? A lightweight, RL-stack independent framework is in the works!
+
+For questions, raise an issue, or email johnblanier@gmail.com
