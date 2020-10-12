@@ -30,7 +30,7 @@ conda activate p2sro_release
 #### 1. DeepMind OpenSpiel (included dependency)
 DeepMind's [Openspiel](https://github.com/deepmind/open_spiel) is used for Kuhn and Leduc Poker game logic as well as matrix-game utilities.
 
-With your conda env active:
+Perform the following steps with your conda env *active* to install OpenSpiel. (The conda env needs to be active so that OpenSpiel can find and compile against the python development headers in the env. Python version related issues may occur otherwise):
 ```shell script
 cd dependencies/open_spiel
 ./install.sh
