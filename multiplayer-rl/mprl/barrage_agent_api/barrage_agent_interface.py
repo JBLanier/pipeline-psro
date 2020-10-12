@@ -4,9 +4,9 @@ import random
 
 from stratego_env import StrategoMultiAgentEnv, ObservationComponents
 from stratego_env.game.stratego_procedural_impl import SP, StateLayers
-from mprl.barrage_agent.create_initial_state import STRATEGO_ENV_BARRAGE_INTERFACE_CONFIG, P2SRO_AGENT_PLAYER_ID, \
+from mprl.barrage_agent_api.create_initial_state import STRATEGO_ENV_BARRAGE_INTERFACE_CONFIG, P2SRO_AGENT_PLAYER_ID, \
     OUTSIDE_AGENT_PLAYER_ID, create_manual_barrage_initial_state
-from mprl.barrage_agent.p2sro_agent_wrapper import BarrageAgentPolicyPopulationWrapper
+from mprl.barrage_agent_api.p2sro_agent_wrapper import BarrageAgentPolicyPopulationWrapper
 
 
 class BarrageAgentInterface:
