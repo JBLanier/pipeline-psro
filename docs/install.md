@@ -7,10 +7,10 @@
 4. install python modules (including the main package for this repo, [mprl](../multiplayer-rl))
 
 ### Required packages
-[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments:
+[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments. [htop](https://htop.dev/) is a visual system process monitor:
 ```shell script
 # (On Ubuntu)
-sudo apt update && sudo apt install tmux
+sudo apt update && sudo apt install tmux htop
 ```
 
 ### Clone repo with git submodules
