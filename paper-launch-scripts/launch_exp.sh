@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# We will be launching multiple tmux windows which may not by default be using the same python environment as the current shell.
+# We will be launching multiple tmux windows, which may not by default be using the same python environment as the current shell, 
+# so we specifiy to use the current shell's python executable.
 PYTHON_EXECUTABLE="$(command -v python)"
 echo "Using current python executable at ${PYTHON_EXECUTABLE}"
 
