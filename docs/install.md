@@ -71,6 +71,7 @@ cd multiplayer-rl
 pip install -e .
 ```
 
+Installation is now done!
 
 ### Check out Guides for Usage
 1. [Running Poker Experiments](running_experiments.md)
