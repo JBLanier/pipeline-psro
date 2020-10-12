@@ -30,5 +30,6 @@ dependencies:
     - bidict==0.21.2
     - minio==6.0.0
     - lz4==3.1.0
+    - setproctitle==1.1.10
 
 
