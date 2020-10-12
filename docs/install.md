@@ -24,8 +24,9 @@ git submodule update --init --recursive
 
 
 ### Set up Conda environment
-After installing [Anaconda](https://docs.anaconda.com/anaconda/install/):
+After installing [Anaconda](https://docs.anaconda.com/anaconda/install/), enter the repo directory and create the new environment:
 ```shell script
+cd pipeline-psro
 conda env create -f environment.yml
 conda activate p2sro_release
 ```
