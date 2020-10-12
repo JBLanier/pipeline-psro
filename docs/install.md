@@ -4,7 +4,7 @@
 1. install tmux
 2. clone the repo
 3. set up conda env
-4. install python modules (including the main package for this repo, mprl)
+4. install python modules (including the main package for this repo, [mprl](../multiplayer-rl))
 
 ### Required packages
 [tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments:
