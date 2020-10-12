@@ -1,6 +1,10 @@
 # Installation
 (tested on Ubuntu 18.04 and 20.04)
 
+1. clone the repo
+2. set up conda env
+3. install python modules (including the main package for this repo, mprl)
+
 ### Required packages
 [tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments:
 ```shell script
@@ -51,7 +55,7 @@ export PYTHONPATH=$PYTHONPATH:/<path_to_open_spiel_submodule>/build/python
 ```
 (The mprl package automatically adds these directories to the python system-path at runtime in its top-level [\_\_init.py__](../multiplayer-rl/mprl/__init__.py), so this step isn't necessary to run code in this repository.)
 
-#### 2. Stratego Env (included dependency)
+#### 2. Stratego Env Package (included dependency)
 Stratego Multiplayer RL Environment
 ````shell script
 cd dependencies/stratego_env
@@ -59,7 +63,7 @@ pip install -e .
 cd ../..
 ````
 
-#### 3. Multiplayer RL (main package)
+#### 3. Multiplayer RL Package (main package)
 
 ```shell script
 cd multiplayer-rl
