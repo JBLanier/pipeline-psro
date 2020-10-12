@@ -7,10 +7,6 @@ import numpy as np
 import logging
 from mprl.rl.common.weights_utils_policy_mixin import WeightsUtilsPolicyMixin
 
-import ray
-import ray.experimental.tf_utils
-from ray.rllib.agents.sac.sac_model import SACModel
-from ray.rllib.agents.ddpg.noop_model import NoopModel
 from ray.rllib.agents.dqn.dqn_policy import _postprocess_dqn, PRIO_WEIGHTS
 from ray.rllib.policy.sample_batch import SampleBatch
 from ray.rllib.policy.tf_policy_template import build_tf_policy
@@ -18,8 +14,6 @@ from ray.rllib.models import ModelCatalog
 from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.utils import try_import_tf, try_import_tfp
 from ray.rllib.utils.tf_ops import minimize_and_clip, make_tf_callable
-from ray.rllib.policy.tf_policy import TFPolicy
-from ray.rllib.utils.annotations import override
 from ray.rllib.models.model import restore_original_dimensions
 from mprl.rl.sac.sac import DEFAULT_CONFIG
 
@@ -109,31 +103,14 @@ def actor_critic_loss(policy, model, _, train_batch):
         "is_training": policy._get_is_training_placeholder(),
     }, [], None)
 
-    # target_model_logits_tp1, _ = policy.target_model({
-    #     "obs": train_batch[SampleBatch.NEXT_OBS],
-    #     "is_training": policy._get_is_training_placeholder(),
-    # }, [], None)
-
-    # TODO(hartikainen): figure actions and log pis
-
     policy_t = tf.nn.softmax(model_logits_t, axis=-1)  # shape (batchsize, num_actions)
     log_pis_t = tf.log(policy_t + 1e-8)  # shape (batchsize, num_actions)
 
     policy_tp1 = tf.nn.softmax(model_logits_tp1, axis=-1)  # shape (batchsize, num_actions)
     log_pis_tp1 = tf.log(policy_tp1 + 1e-8)  # shape (batchsize, num_actions)
 
-
-    # policy_noisy_t, log_pis_noisy_t = model.get_soft_actor_critic_discrete_policy_output(logits=model_logits_t)
-    # policy_noisy_tp1, log_pis_noisy_tp1 = model.get_soft_actor_critic_discrete_policy_output(logits=model_logits_tp1)
-
-    # policy_det_t, log_pis_det_t = model.get_soft_actor_critic_discrete_policy_output(
-    #     logits=model_logits_t, deterministic=True)
-    # policy_det_tp1, log_pis_det_tp1 = model.get_soft_actor_critic_discrete_policy_output(
-    #     logits=model_logits_tp1, deterministic=True)
-
     log_alpha = model.log_alpha
     alpha = model.alpha
-    # alpha = 0.0
 
     # q network evaluation
     main_q_t = model.get_q_values(observations=restored_obs)  # shape (batchsize, num_actions)
@@ -148,17 +125,6 @@ def actor_critic_loss(policy, model, _, train_batch):
     else:
         min_q_t = main_q_t  # shape (batchsize, num_actions)
 
-    # # TODO JB - comment says the policy here shoudl be noiseless, but, its not? wtf - ok, openai spinning up uses noisy policy for all q networks when sampling pi
-    # # Q-values for current policy (no noise) in given current state
-    # q_t_noisy_policy = model.get_q_values(observations=restored_obs,
-    #                                       actions=policy_noisy_t)
-
-    # if policy.config["twin_q"]:
-    #     twin_q_t_noisy_policy = model.get_twin_q_values(observations=restored_obs,
-    #                                       actions=policy_noisy_t)
-    #     # should be an element-wise min
-    #     q_t_noisy_policy = tf.minimum(q_t_noisy_policy, twin_q_t_noisy_policy)
-
     # target q network evaluation
     main_q_targetnet_tp1 = policy.target_model.get_q_values(observations=restored_next_obs)  # shape (batchsize, num_actions)
     if policy.config["twin_q"]:
@@ -167,7 +133,6 @@ def actor_critic_loss(policy, model, _, train_batch):
     else:
         min_q_targetnet_tp1 = main_q_targetnet_tp1  # shape (batchsize, num_actions)
 
-    # todo just changed this line from log_pis_t to log_pis_tp1
     value_tp1 = tf.stop_gradient(tf.reduce_sum(policy_tp1 * (min_q_targetnet_tp1 - alpha * log_pis_tp1), axis=-1))  # shape (batchsize,)
     assert np.array_equal(np.asarray(value_tp1.get_shape().as_list()), [None]), f"shape is {np.asarray(value_tp1.get_shape().as_list())}"
 
@@ -183,8 +148,8 @@ def actor_critic_loss(policy, model, _, train_batch):
     if policy.config["twin_q"]:
         q2_loss = 0.5 * tf.reduce_mean((twin_q_t_selected - q_t_target) ** 2)
 
-    # TODO use a baseline? hw from levine, page 6 http://rail.eecs.berkeley.edu/deeprlcourse/static/homeworks/hw5b.pdf
-    baseline=0.0
+    # TODO use a baseline?
+    baseline = 0.0
     value_t = tf.stop_gradient(tf.reduce_sum(policy_t * (min_q_t - alpha * log_pis_t), axis=-1, keep_dims=True))  # shape (batchsize, 1)
     # baseline = value_t
 
@@ -198,20 +163,12 @@ def actor_critic_loss(policy, model, _, train_batch):
 
     policy.target_entropies = target_entropies
 
-    # assert False, f"target entropy is {target_entropy}, action_space.n is {policy.action_space.n}"
-
     pi_entropies = -tf.reduce_sum(policy_t * log_pis_t, axis=-1)
     # assert np.array_equal(np.asarray(pi_entropies.get_shape().as_list()), [None])
     policy.pi_entropies = pi_entropies
     alpha_backup = tf.stop_gradient(target_entropies - pi_entropies)  # shape (batchsize,)
     assert np.array_equal(np.asarray(alpha_backup.get_shape().as_list()), [None]), f"actual shape {alpha_backup.get_shape().as_list()}"
     alpha_loss = -tf.reduce_mean(log_alpha * alpha_backup)
-
-
-
-
-
-    # alpha_loss = tf.reduce_mean(tf.reduce_sum(tf.stop_gradient(policy_t) * (-alpha * tf.stop_gradient(log_pis_t + target_entropies)), axis=-1))
 
     # save for stats function
     policy.min_q_t = min_q_t
@@ -231,34 +188,6 @@ def actor_critic_loss(policy, model, _, train_batch):
 def gradients(policy, optimizer, loss):
     if policy.config["grad_norm_clipping"] is not None:
         raise NotImplementedError
-        actor_grads_and_vars = minimize_and_clip(
-            optimizer,
-            policy.actor_loss,
-            var_list=policy.model.policy_variables(),
-            clip_val=policy.config["grad_norm_clipping"])
-        if policy.config["twin_q"]:
-            critic_grads_and_vars = []
-            critic_grads_and_vars += minimize_and_clip(
-                optimizer,
-                policy.critic_loss[0],
-                var_list=policy.model.main_q_variables(),
-                clip_val=policy.config["grad_norm_clipping"])
-            critic_grads_and_vars += minimize_and_clip(
-                optimizer,
-                policy.critic_loss[1],
-                var_list=policy.model.twin_q_variables(),
-                clip_val=policy.config["grad_norm_clipping"])
-        else:
-            critic_grads_and_vars = minimize_and_clip(
-                optimizer,
-                policy.critic_loss[0],
-                var_list=policy.model.q_variables(),
-                clip_val=policy.config["grad_norm_clipping"])
-        alpha_grads_and_vars = minimize_and_clip(
-            optimizer,
-            policy.alpha_loss,
-            var_list=[policy.model.log_alpha],
-            clip_val=policy.config["grad_norm_clipping"])
     else:
         actor_grads_and_vars = policy._actor_optimizer.compute_gradients(
             policy.actor_loss, var_list=policy.model.policy_variables())
@@ -291,6 +220,7 @@ def gradients(policy, optimizer, loss):
 
     return grads_and_vars
 
+
 def apply_gradients(policy, optimizer, grads_and_vars):
     actor_apply_ops = policy._actor_optimizer.apply_gradients(
         policy._actor_grads_and_vars)
@@ -307,43 +237,6 @@ def apply_gradients(policy, optimizer, grads_and_vars):
         global_step=tf.train.get_or_create_global_step())
 
     return tf.group([actor_apply_ops, alpha_apply_ops, critic_apply_ops] + ([critic_apply_ops2] if policy.config["twin_q"] else []))
-
-
-# def gradients(policy, optimizer, loss):
-#     if policy.config["grad_norm_clipping"] is not None:
-#         actor_grads_and_vars = minimize_and_clip(
-#             optimizer,
-#             policy.actor_loss,
-#             var_list=policy.model.policy_variables(),
-#             clip_val=policy.config["grad_norm_clipping"])
-#         critic_grads_and_vars = minimize_and_clip(
-#             optimizer,
-#             policy.critic_loss,
-#             var_list=policy.model.q_variables(),
-#             clip_val=policy.config["grad_norm_clipping"])
-#         alpha_grads_and_vars = minimize_and_clip(
-#             optimizer,
-#             policy.alpha_loss,
-#             var_list=[policy.model.log_alpha],
-#             clip_val=policy.config["grad_norm_clipping"])
-#     else:
-#         actor_grads_and_vars = optimizer.compute_gradients(
-#             policy.actor_loss, var_list=policy.model.policy_variables())
-#         critic_grads_and_vars = optimizer.compute_gradients(
-#             policy.critic_loss, var_list=policy.model.q_variables())
-#         alpha_grads_and_vars = optimizer.compute_gradients(
-#             policy.alpha_loss, var_list=[policy.model.log_alpha])
-#     # save these for later use in build_apply_op
-#     policy._actor_grads_and_vars = [(g, v) for (g, v) in actor_grads_and_vars
-#                                     if g is not None]
-#     policy._critic_grads_and_vars = [(g, v) for (g, v) in critic_grads_and_vars
-#                                      if g is not None]
-#     policy._alpha_grads_and_vars = [(g, v) for (g, v) in alpha_grads_and_vars
-#                                     if g is not None]
-#     grads_and_vars = (
-#         policy._actor_grads_and_vars + policy._critic_grads_and_vars +
-#         policy._alpha_grads_and_vars)
-#     return grads_and_vars
 
 
 def stats(policy, train_batch):
@@ -364,11 +257,13 @@ def stats(policy, train_batch):
         stats['q2_loss'] = tf.reduce_mean(policy.q2_loss)
     return stats
 
+
 class TargetEntropyProportionMixin(object):
 
     def set_target_entropy_proportion(self, target_entropy_proportion):
         assert 0.0 <= target_entropy_proportion <= 1.0
         self.max_entropy_target_proportion.load(target_entropy_proportion, session=self.get_session())
+
 
 class ExplorationStateMixin(object):
     def __init__(self, obs_space, action_space, config):
