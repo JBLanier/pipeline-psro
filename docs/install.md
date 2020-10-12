@@ -1,9 +1,10 @@
 # Installation
 (tested on Ubuntu 18.04 and 20.04)
 
-1. clone the repo
-2. set up conda env
-3. install python modules (including the main package for this repo, mprl)
+1. Install tmux
+2. clone the repo
+3. set up conda env
+4. install python modules (including the main package for this repo, mprl)
 
 ### Required packages
 [tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments:
