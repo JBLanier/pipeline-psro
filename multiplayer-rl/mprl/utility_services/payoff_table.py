@@ -28,10 +28,17 @@ class PolicySpec(object):
 
 class PayoffTable(object):
 
+    class _P2SROPLegacyUnpickler(dill.Unpickler):
+        # Accounts for a change in module name since the time certain old payoff tables were pickled.
+        def find_class(self, module, name):
+            if module == 'population_server.payoff_table':
+                module = 'mprl.utility_services.payoff_table'
+            return super().find_class(module, name)
+
     @classmethod
     def from_dill_file(cls, dill_file_path):
         with open(dill_file_path, 'rb') as dill_file:
-            payoff_table = dill.load(dill_file)
+            payoff_table = cls._P2SROPLegacyUnpickler(dill_file).load()
         assert isinstance(payoff_table,
                           PayoffTable), f"The loaded item at {dill_file_path} was not a PayoffTable instance."
         return payoff_table
