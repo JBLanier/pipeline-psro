@@ -7,10 +7,6 @@ import numpy as np
 import logging
 from mprl.rl.common.weights_utils_policy_mixin import WeightsUtilsPolicyMixin
 
-import ray
-import ray.experimental.tf_utils
-from ray.rllib.agents.sac.sac_model import SACModel
-from ray.rllib.agents.ddpg.noop_model import NoopModel
 from ray.rllib.agents.dqn.dqn_policy import _postprocess_dqn, PRIO_WEIGHTS
 from ray.rllib.policy.sample_batch import SampleBatch
 from ray.rllib.policy.tf_policy_template import build_tf_policy
@@ -18,8 +14,6 @@ from ray.rllib.models import ModelCatalog
 from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.utils import try_import_tf, try_import_tfp
 from ray.rllib.utils.tf_ops import minimize_and_clip, make_tf_callable
-from ray.rllib.policy.tf_policy import TFPolicy
-from ray.rllib.utils.annotations import override
 from ray.rllib.models.model import restore_original_dimensions
 from mprl.rl.sac.sac import DEFAULT_CONFIG
 
@@ -159,7 +153,6 @@ def actor_critic_loss(policy, model, _, train_batch):
     else:
         min_q_targetnet_tp1 = main_q_targetnet_tp1  # shape (batchsize, num_actions)
 
-    # todo just changed this line from log_pis_t to log_pis_tp1
     q_value_tp1_per_action = (min_q_targetnet_tp1 - alpha * log_pis_tp1)
     value_tp1 = tf.stop_gradient(tf.reduce_sum(policy_probs_tp1 * q_value_tp1_per_action, axis=-1))  # shape (batchsize,)
     assert np.array_equal(np.asarray(value_tp1.get_shape().as_list()), [None]), f"shape is {np.asarray(value_tp1.get_shape().as_list())}"
@@ -175,7 +168,7 @@ def actor_critic_loss(policy, model, _, train_batch):
     q1_loss = 0.5 * reduce_mean_valid((main_q_t_selected - q_t_target)**2)
     q2_loss = 0.5 * reduce_mean_valid((twin_q_t_selected - q_t_target) ** 2)
 
-    # TODO use a baseline? hw from levine, page 6 http://rail.eecs.berkeley.edu/deeprlcourse/static/homeworks/hw5b.pdf
+    # TODO use a baseline?
     baseline=0.0
     value_t = tf.stop_gradient(tf.reduce_sum(policy_probs_t * (min_q_t - alpha * log_pis_t), axis=-1, keep_dims=True))  # shape (batchsize, 1)
     # baseline = value_t
@@ -204,14 +197,6 @@ def actor_critic_loss(policy, model, _, train_batch):
     assert np.array_equal(np.asarray(alpha_backup.get_shape().as_list()), [None]), f"actual shape {alpha_backup.get_shape().as_list()}"
     alpha_loss = -reduce_mean_valid(log_alpha * alpha_backup)
 
-
-    # alpha_loss = tf.Print(alpha_loss, [alpha_loss], "\n\n\n\n\n\n\n\n\n\n\n\n\n\nalpha loss is:")
-    # alpha_loss = tf.debugging.check_numerics(
-    #     alpha_loss, f"nan found in alpha loss", name=None)
-
-
-    # alpha_loss = tf.reduce_mean(tf.reduce_sum(tf.stop_gradient(policy_t) * (-alpha * tf.stop_gradient(log_pis_t + target_entropies)), axis=-1))
-
     # save for stats function
     policy.min_q_t = min_q_t
     # policy.td_error = td_error
@@ -234,34 +219,6 @@ def actor_critic_loss(policy, model, _, train_batch):
 def gradients(policy, optimizer, loss):
     if policy.config["grad_norm_clipping"] is not None:
         raise NotImplementedError
-        actor_grads_and_vars = minimize_and_clip(
-            optimizer,
-            policy.actor_loss,
-            var_list=policy.model.policy_variables(),
-            clip_val=policy.config["grad_norm_clipping"])
-        # if policy.config["twin_q"]:
-        #     critic_grads_and_vars = []
-        #     critic_grads_and_vars += minimize_and_clip(
-        #         optimizer,
-        #         policy.critic_loss[0],
-        #         var_list=policy.model.main_q_variables(),
-        #         clip_val=policy.config["grad_norm_clipping"])
-        #     critic_grads_and_vars += minimize_and_clip(
-        #         optimizer,
-        #         policy.critic_loss[1],
-        #         var_list=policy.model.twin_q_variables(),
-        #         clip_val=policy.config["grad_norm_clipping"])
-        # else:
-        #     critic_grads_and_vars = minimize_and_clip(
-        #         optimizer,
-        #         policy.critic_loss[0],
-        #         var_list=policy.model.q_variables(),
-        #         clip_val=policy.config["grad_norm_clipping"])
-        alpha_grads_and_vars = minimize_and_clip(
-            optimizer,
-            policy.alpha_loss,
-            var_list=[policy.model.log_alpha],
-            clip_val=policy.config["grad_norm_clipping"])
     else:
         actor_grads_and_vars = policy._actor_optimizer.compute_gradients(
             policy.actor_loss, var_list=policy.model.policy_variables())
@@ -318,43 +275,6 @@ def apply_gradients(policy, optimizer, grads_and_vars):
                      alpha_apply_ops,
                      critic_apply_ops, critic_apply_ops2
                      ])
-
-
-# def gradients(policy, optimizer, loss):
-#     if policy.config["grad_norm_clipping"] is not None:
-#         actor_grads_and_vars = minimize_and_clip(
-#             optimizer,
-#             policy.actor_loss,
-#             var_list=policy.model.policy_variables(),
-#             clip_val=policy.config["grad_norm_clipping"])
-#         critic_grads_and_vars = minimize_and_clip(
-#             optimizer,
-#             policy.critic_loss,
-#             var_list=policy.model.q_variables(),
-#             clip_val=policy.config["grad_norm_clipping"])
-#         alpha_grads_and_vars = minimize_and_clip(
-#             optimizer,
-#             policy.alpha_loss,
-#             var_list=[policy.model.log_alpha],
-#             clip_val=policy.config["grad_norm_clipping"])
-#     else:
-#         actor_grads_and_vars = optimizer.compute_gradients(
-#             policy.actor_loss, var_list=policy.model.policy_variables())
-#         critic_grads_and_vars = optimizer.compute_gradients(
-#             policy.critic_loss, var_list=policy.model.q_variables())
-#         alpha_grads_and_vars = optimizer.compute_gradients(
-#             policy.alpha_loss, var_list=[policy.model.log_alpha])
-#     # save these for later use in build_apply_op
-#     policy._actor_grads_and_vars = [(g, v) for (g, v) in actor_grads_and_vars
-#                                     if g is not None]
-#     policy._critic_grads_and_vars = [(g, v) for (g, v) in critic_grads_and_vars
-#                                      if g is not None]
-#     policy._alpha_grads_and_vars = [(g, v) for (g, v) in alpha_grads_and_vars
-#                                     if g is not None]
-#     grads_and_vars = (
-#         policy._actor_grads_and_vars + policy._critic_grads_and_vars +
-#         policy._alpha_grads_and_vars)
-#     return grads_and_vars
 
 
 def stats(policy, train_batch):
