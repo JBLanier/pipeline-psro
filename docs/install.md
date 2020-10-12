@@ -67,6 +67,6 @@ pip install -e .
 ```
 
 
-### Checkout Guides for Usage
+### Check out Guides for Usage
 1. [Running Poker Experiments](running_experiments.md)
 2. [Playing against the Barrage Agent](barrage_agent.md)
