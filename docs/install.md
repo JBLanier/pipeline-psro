@@ -49,7 +49,7 @@ export PYTHONPATH=$PYTHONPATH:/<path_to_open_spiel_submodule>
 # For the Python bindings of Pyspiel
 export PYTHONPATH=$PYTHONPATH:/<path_to_open_spiel_submodule>/build/python
 ```
-(The mprl package automatically adds these directories to the python system-path in its top-level \_\_init.py__, so this step isn't necessary to run code in this repository.)
+(The mprl package automatically adds these directories to the python system-path at runtime in its top-level [\_\_init.py__](../multiplayer-rl/mprl/__init__.py), so this step isn't necessary to run code in this repository.)
 
 #### 2. Stratego Env (included dependency)
 Stratego Multiplayer RL Environment
