@@ -3,3 +3,5 @@
 1. [Installation](docs/install.md)
 2. [Running Experiments](docs/running_experiments.md)
 3. [Interfacing with the trained Barrage Agent](docs/barrage_agent.md)
+
+Looking to integrate P2SRO into your own code? A lightweight, RL-stack independent framework is in the works!
