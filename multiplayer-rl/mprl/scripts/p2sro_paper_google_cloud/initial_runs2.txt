@@ -1,7 +1,0 @@
-./launch_exp.sh naive.sh 1 3 3 kuhn_poker
-./launch_exp.sh pipe.sh 1 3 3 kuhn_poker
-./launch_exp.sh rect.sh 1 3 3 kuhn_poker
-./launch_exp.sh self.sh 1 1 1 kuhn_poker
-./launch_exp.sh seq.sh 1 1 1 kuhn_poker
-./launch_exp.sh singles.sh 1 3 3 kuhn_poker
-./launch_exp.sh subsets.sh 1 3 3 kuhn_poker
