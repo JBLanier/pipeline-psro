@@ -2,7 +2,7 @@
 (tested on Ubuntu 18.04 and 20.04)
 
 ### Required packages
-[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display paper experiments:
+[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments:
 ```shell script
 # (On Ubuntu)
 sudo apt update && sudo apt install tmux
