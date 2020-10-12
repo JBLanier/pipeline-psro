@@ -22,7 +22,7 @@ from mprl.rl.ppo.ppo_custom_eval_trainer import PPOCustomEvalTrainer
 from mprl.rl.ppo.ppo_stratego_model_policy import PPOStrategoModelTFPolicy
 from mprl.rl.common.util import numpy_unpack_obs
 from mprl.rl.envs.opnspl.poker_multiagent_env import POKER_ENV
-from mprl.rl.envs.opnspl.measure_nashconv_eval_callback import openspiel_policy_from_nonlstm_rllib_policy
+from mprl.rl.envs.opnspl.measure_exploitability_eval_callback import openspiel_policy_from_nonlstm_rllib_policy
 from mprl.rl.envs.opnspl.util import policy_to_dict_but_we_can_actually_use_it
 from mprl.rl.envs.opnspl.poker_multiagent_env import PokerMultiAgentEnv
 

@@ -29,7 +29,7 @@ from mprl.utils import pretty_print
 from mprl.utility_services.worker import ConsoleManagerInterface, FalseConfirmationError
 from mprl.scripts.poker_parallel_algos.evaluators.evaluator_utils import make_get_policy_fn, eval_policy_matchup
 from mprl.scripts.poker_parallel_algos.utils.policy_config_keys import POKER_ARCH1_MODEL_CONFIG_KEY
-from mprl.rl.envs.opnspl.measure_nashconv_eval_callback import measure_nash_conv_nonlstm
+from mprl.rl.envs.opnspl.measure_exploitability_eval_callback import measure_exploitability_nonlstm
 import itertools
 from mprl.utility_services.cloud_storage import maybe_download_object, connect_storage_client
 from mprl.rl.sac.sac_policy import SACDiscreteTFPolicy
@@ -157,10 +157,10 @@ def measure_exploitability_of_metanashes_as_they_become_available():
 
             policy_dict = {key: prob for key, prob in zip(policy_weights_keys, metanash_probs)}
 
-            exploitabilitly = measure_nash_conv_nonlstm(rllib_policy=policy,
-                                                        poker_game_version=POKER_GAME_VERSION,
-                                                        policy_mixture_dict=policy_dict,
-                                                        set_policy_weights_fn=set_policy_weights)
+            exploitabilitly = measure_exploitability_nonlstm(rllib_policy=policy,
+                                                             poker_game_version=POKER_GAME_VERSION,
+                                                             policy_mixture_dict=policy_dict,
+                                                             set_policy_weights_fn=set_policy_weights)
             print(f"Exploitability: {exploitabilitly}")
 
 

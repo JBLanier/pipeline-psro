@@ -34,11 +34,13 @@ class BarrageAgentInterface:
                 appearing as player 1 and p2sro agent as player -1 i.e. player 2.
                 A detailed breakdown for the contents of the stratego env state can be found at
                 https://github.com/JBLanier/stratego_env/blob/master/stratego_env/game/stratego_procedural_impl.py
+                Parse this information to create an observation in your own agent's native format if you wish.
             ndarray: The observation for the outside agent in the same format as used by the p2sro agent.
                 It is assumed that the outside agent code will create its own observation from the internal state,
                 likely in a different format than the p2sro agent's. This is returned in the interest of redundancy.
-
-            It is also possible that the user may not need this return information, as they may be tracking the game
+                The P2SRO agent's observations are "partially observable". It doesn't see piece values unless they are
+                revealed by the rules of stratego.
+            It is possible that the user may not need this return information, as they may be tracking the game
             state through their own stratego game logic implementation.
         """
 
@@ -95,9 +97,12 @@ class BarrageAgentInterface:
                 appearing as player 1 and p2sro agent as player -1 i.e. player 2.
                 A detailed breakdown for the contents of the stratego env state can be found at
                 https://github.com/JBLanier/stratego_env/blob/master/stratego_env/game/stratego_procedural_impl.py
+                Parse this information to create an observation in your own agent's native format if you wish.
             ndarray: The observation for the outside agent in the same format as used by the p2sro agent.
                 It is assumed that the outside agent code will create its own observation from the internal state,
                 likely in a different format than the p2sro agent's. This is returned in the interest of redundancy.
+                The P2SRO agent's observations are "partially observable". It doesn't see piece values unless they are
+                revealed by the rules of stratego.
             bool: Whether the game is now over
             bool: Whether the outside agent won
             bool: Whether the game resulted in a tie

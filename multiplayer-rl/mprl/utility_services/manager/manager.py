@@ -56,7 +56,8 @@ class _PopulationServerServicerImpl(PopulationServerServicer):
         self._recent_eval_match_requests = {}
 
         self._latest_checkpoint_key = os.path.join(self.payoff_table_save_key_prefix_dir, "latest.dill")
-        logger.info(colored(f"Latest Manager Payoff Table Checkpoint will always be at {self._latest_checkpoint_key}", "yellow"))
+        logger.info(colored(f"Latest Manager Payoff Table Checkpoint will always be at {self._latest_checkpoint_key} "
+                            f"(local file path: {get_default_path_on_disk_for_minio_key(self._latest_checkpoint_key)})", "yellow"))
 
         if restore_from_payoff_table_key is not None:
             payoff_table_local_path, _ = maybe_download_object(storage_client=self._storage_client,

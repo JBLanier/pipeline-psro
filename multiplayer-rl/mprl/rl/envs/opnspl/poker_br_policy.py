@@ -20,7 +20,7 @@ from open_spiel.python.algorithms import cfr
 from open_spiel.python.algorithms import exploitability
 from open_spiel.python import policy
 from open_spiel.python.algorithms.best_response import BestResponsePolicy
-from mprl.rl.envs.opnspl.measure_nashconv_eval_callback import openspiel_policy_from_nonlstm_rllib_policy, tabular_policy_from_weighted_policies
+from mprl.rl.envs.opnspl.measure_exploitability_eval_callback import openspiel_policy_from_nonlstm_rllib_policy, tabular_policy_from_weighted_policies
 from mprl.rl.envs.opnspl.util import policy_to_dict_but_we_can_actually_use_it
 import pyspiel
 
