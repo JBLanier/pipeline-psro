@@ -15,7 +15,7 @@ sudo apt update && sudo apt install tmux
 
 ### Clone repo with git submodules
 ```shell script
-git clone --recursive https://github.com/JBLanier/distributed-rl-for-imperfect-info-games.git
+git clone --recursive https://github.com/JBLanier/pipeline-psro.git
 ```
 If you've already cloned this repo but not the submodules (located in the dependencies directory), you can clone them with:
 ```shell script
