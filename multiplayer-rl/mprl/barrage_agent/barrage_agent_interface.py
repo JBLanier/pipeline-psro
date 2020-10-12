@@ -32,6 +32,8 @@ class BarrageAgentInterface:
         Returns:
             ndarray: The internal state representation used by the stratego game environment with the outside agent
                 appearing as player 1 and p2sro agent as player -1 i.e. player 2.
+                A detailed breakdown for the contents of the stratego env state can be found at
+                https://github.com/JBLanier/stratego_env/blob/master/stratego_env/game/stratego_procedural_impl.py
             ndarray: The observation for the outside agent in the same format as used by the p2sro agent.
                 It is assumed that the outside agent code will create its own observation from the internal state,
                 likely in a different format than the p2sro agent's. This is returned in the interest of redundancy.
@@ -91,6 +93,8 @@ class BarrageAgentInterface:
         Returns:
             ndarray: The new internal state used by the stratego game environment with the outside agent
                 appearing as player 1 and p2sro agent as player -1 i.e. player 2.
+                A detailed breakdown for the contents of the stratego env state can be found at
+                https://github.com/JBLanier/stratego_env/blob/master/stratego_env/game/stratego_procedural_impl.py
             ndarray: The observation for the outside agent in the same format as used by the p2sro agent.
                 It is assumed that the outside agent code will create its own observation from the internal state,
                 likely in a different format than the p2sro agent's. This is returned in the interest of redundancy.
