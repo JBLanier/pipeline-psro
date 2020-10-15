@@ -8,7 +8,7 @@
 
 ### Required packages
 [tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments.  
-[htop](https://htop.dev/) is a visual system process monitor.
+[htop](https://htop.dev/) is a visual system process monitor.  
 [git-lfs](https://git-lfs.github.com/) provides large file handling unilities for git
 ```shell script
 # (On Ubuntu)
