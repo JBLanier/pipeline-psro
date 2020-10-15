@@ -20,7 +20,7 @@ sudo apt update && sudo apt install tmux htop git-lfs
 git clone --recursive https://github.com/JBLanier/pipeline-psro.git
 cd pipeline-psro
 ```
-If you've already cloned this repo but not the submodules (located in the dependencies directory), you can clone them with:
+If you've already cloned this repo but not the [submodules](/dependencies), you can clone them with:
 ```shell script
 git submodule update --init --recursive
 ```
