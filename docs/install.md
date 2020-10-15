@@ -3,7 +3,7 @@
 
 1. install utility packages
 2. clone the repo
-3. set up conda env
+3. set up a conda env
 4. install python modules (including the main package for this repo, [mprl](../multiplayer-rl))
 
 ### Required packages
