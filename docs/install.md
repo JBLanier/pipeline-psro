@@ -18,17 +18,24 @@ sudo apt update && sudo apt install tmux htop git-lfs
 ### Clone repo with git submodules
 ```shell script
 git clone --recursive https://github.com/JBLanier/pipeline-psro.git
+cd pipeline-psro
 ```
 If you've already cloned this repo but not the submodules (located in the dependencies directory), you can clone them with:
 ```shell script
 git submodule update --init --recursive
 ```
 
+This repo includes [neural network weights](/multiplayer-rl/mprl/data/learner_barrage_sac_arch1_pipeline_psro) tracked with git-lfs. If the initial clone wasn't rather large (several hundred megabytes), they may have not automatically been downloaded depending on your git version. Manually pull them just to be safe. 
+```shell script
+git lfs pull
+```
+
+
+
 
 ### Set up Conda environment
 After installing [Anaconda](https://docs.anaconda.com/anaconda/install/), enter the repo directory and create the new environment:
 ```shell script
-cd pipeline-psro
 conda env create -f environment.yml
 conda activate p2sro_release
 ```
