@@ -1,6 +1,6 @@
 # Playing against the Barrage Agent
 
-An API is provided for playing automated games against the trained Barrage agent from the P2SRO paper [here](../multiplayer-rl/mprl/barrage_agent_api).
+An API [here](../multiplayer-rl/mprl/barrage_agent_api) is provided for playing automated games against the trained Barrage agent from the P2SRO paper.
 
 Three files are included:
 

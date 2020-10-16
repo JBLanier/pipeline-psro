@@ -1,32 +1,41 @@
 # Installation
 (tested on Ubuntu 18.04 and 20.04)
 
-1. install tmux
+1. install utility packages
 2. clone the repo
-3. set up conda env
+3. set up a conda env
 4. install python modules (including the main package for this repo, [mprl](../multiplayer-rl))
 
 ### Required packages
-[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments. [htop](https://htop.dev/) is a visual system process monitor:
+[tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is used to launch and display parallel processes for paper experiments.  
+[htop](https://htop.dev/) is a visual system process monitor.  
+[git-lfs](https://git-lfs.github.com/) provides large file handling utilities for git
 ```shell script
 # (On Ubuntu)
-sudo apt update && sudo apt install tmux htop
+sudo apt update && sudo apt install tmux htop git-lfs
 ```
 
 ### Clone repo with git submodules
 ```shell script
 git clone --recursive https://github.com/JBLanier/pipeline-psro.git
+cd pipeline-psro
 ```
-If you've already cloned this repo but not the submodules (located in the dependencies directory), you can clone them with:
+If you've already cloned this repo but not the [submodules](/dependencies), you can clone them with:
 ```shell script
 git submodule update --init --recursive
 ```
+
+This repo includes [neural network weights](/multiplayer-rl/mprl/data/learner_barrage_sac_arch1_pipeline_psro) tracked with git-lfs. If the initial clone wasn't rather large (several hundred megabytes), they may have not automatically been downloaded depending on your git version. Manually pull them just to be safe. 
+```shell script
+git lfs pull
+```
+
+
 
 
 ### Set up Conda environment
 After installing [Anaconda](https://docs.anaconda.com/anaconda/install/), enter the repo directory and create the new environment:
 ```shell script
-cd pipeline-psro
 conda env create -f environment.yml
 conda activate p2sro_release
 ```
