@@ -3,6 +3,7 @@ import logging
 import grpc
 import time
 import threading
+from typing import Union
 
 from mprl.utility_services.lock_server.protobuf.lock_server_pb2 import LockRequest, LockConfirmation, LockWorkerPing, LockReplaceRequest, NameFilter, LockList
 from mprl.utility_services.lock_server.protobuf.lock_server_pb2_grpc import LockServerStub
@@ -14,9 +15,9 @@ _WORKER_PING_INTERVAL_SECONDS = 15
 
 class LockServerInterface(object):
 
-    def __init__(self, server_host: str, port: int, worker_id: str):
+    def __init__(self, server_host: str, port: Union[int, str], worker_id: str):
         self._server_host = server_host
-        self._port = port
+        self._port = int(port)
         self._worker_id = worker_id
         self._worker_type = "lock_server_client"
         self._stub: LockServerStub = self._get_grpc_stub()

@@ -123,11 +123,13 @@ class LivePolicyPayoffTracker(object):
         if base_payoff_table is None:
             base_payoff_table = PayoffTable()
         base_payoff_table: PayoffTable = base_payoff_table
-        active_policy_numbers, finished_policy_numbers, total_policy_numbers = self._get_active_and_finished_policy_numbers()
+        active_policy_numbers, finished_policy_numbers, total_policy_numbers = self.get_active_and_finished_policy_numbers()
         assert len(active_policy_numbers) + len(finished_policy_numbers) == total_policy_numbers
         are_all_lower_policies_finished = len(active_policy_numbers) == 0
 
-        print(colored(f"Policy {self._claimed_policy_num}: Latest live stats for policies below this learner: {len(finished_policy_numbers)} policies finished, {len(active_policy_numbers)} active.", "cyan"))
+        print(colored(f"Policy {self._claimed_policy_num}: There are {total_policy_numbers} policies below this learner. "
+                      f"(Active policies below {self._claimed_policy_num} are {active_policy_numbers}. "
+                      f"Frozen policies below {self._claimed_policy_num} are {finished_policy_numbers}).", "white"))
 
         if total_policy_numbers == 0:
             return None, are_all_lower_policies_finished
@@ -195,7 +197,7 @@ class LivePolicyPayoffTracker(object):
 
     @ray.method(num_return_vals=1)
     def are_all_lower_policies_finished(self):
-        active_policy_numbers, finished_policy_numbers, total_policy_numbers = self._get_active_and_finished_policy_numbers()
+        active_policy_numbers, finished_policy_numbers, total_policy_numbers = self.get_active_and_finished_policy_numbers()
         assert len(active_policy_numbers) + len(finished_policy_numbers) == total_policy_numbers
         return len(active_policy_numbers) == 0
 
@@ -203,7 +205,7 @@ class LivePolicyPayoffTracker(object):
     def get_claimed_policy_num(self):
         return self._claimed_policy_num
 
-    def _get_active_and_finished_policy_numbers(self):
+    def get_active_and_finished_policy_numbers(self):
         start_time = time.time()
         while True:
             policy_status_locks = self._lock_interface.get_all_items(filter_by_string="policy_status: ")
@@ -248,7 +250,7 @@ class LivePolicyPayoffTracker(object):
         if self._claimed_policy_num is not None:
             raise ValueError(f"This interface has already claimed policy {self._claimed_policy_num}")
 
-        _, _, total_policy_numbers = self._get_active_and_finished_policy_numbers()
+        _, _, total_policy_numbers = self.get_active_and_finished_policy_numbers()
 
         claimed_policy_key = self._lock_interface.try_to_reserve_item_from_list(
             possible_item_names_in_order_of_highest_priority_first=[f"policy_status: {i} active" for i in range(total_policy_numbers, total_policy_numbers+100)])
