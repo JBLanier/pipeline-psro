@@ -4,6 +4,6 @@
 2. [Running Poker Experiments](docs/running_experiments.md)
 3. [Interfacing with the trained Barrage Agent](docs/barrage_agent.md)
 
-Looking to integrate P2SRO into your own code? A lightweight, RL-stack independent framework is in the works!
+An updated version that includes NXDO and NFSP is here: https://github.com/indylab/nxdo
 
 For questions, raise an issue, or email johnblanier@gmail.com
